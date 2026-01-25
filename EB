@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>A Small Gift — For the English Teacher</title>
+<style>
+  /* reset */
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg1:#071028;
+    --accent1:#ff6fb5;
+    --accent2:#ffd56b;
+    --card:#0f1724;
+    --glass: rgba(255,255,255,0.03);
+    --text:#fff;
+    --muted: rgba(255,255,255,0.75);
+  }
+  html,body{height:100%;font-family:"Tajawal",system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:
+    radial-gradient(800px 400px at 10% 20%, rgba(255,111,181,0.06), transparent 8%),
+    radial-gradient(800px 400px at 90% 80%, rgba(255,213,107,0.03), transparent 6%),
+    linear-gradient(180deg,var(--bg1), #071022 85%);
+    color:var(--text);display:flex;align-items:center;justify-content:center;padding:4vmin;overflow:hidden}
+
+  /* container */
+  .wrap{width:100%;max-width:980px;position:relative;z-index:3}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 24px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden}
+
+  header{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+  .avatar{width:84px;height:84px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,#101124,#17203a);flex:0 0 84px;border:3px solid rgba(255,255,255,0.04)}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .title h1{font-size:18px;margin-bottom:4px}
+  .title p{font-size:13px;color:var(--muted)}
+
+  /* initial modal area (question) */
+  .intro-stage{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;padding:18px}
+  .question{font-size:18px;font-weight:800}
+  .sub{font-size:13px;color:var(--muted)}
+  .btn{background:linear-gradient(90deg,var(--accent1),#ff9acb);color:#fff;padding:10px 16px;border-radius:999px;border:none;cursor:pointer;font-weight:700;box-shadow:0 10px 30px rgba(255,111,181,0.12)}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+
+  /* gift area */
+  .stage{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  .left{flex:0 0 320px;min-width:220px}
+  .right{flex:1;min-width:200px}
+
+  .gift-wrap{display:flex;align-items:center;justify-content:center;padding:14px}
+  .gift{width:220px;height:200px;position:relative;cursor:pointer;perspective:900px}
+  .box{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-10%);width:200px;height:140px;background:linear-gradient(180deg,#ffd6ee,#ff9acb);border-radius:10px;border:1px solid rgba(0,0,0,0.12);
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:5;transform-origin:center bottom;transition:transform .9s cubic-bezier(.2,.9,.2,1)
+  }
+  .box.top{height:36px;width:220px;top:24px;border-radius:8px 8px 0 0;transform-origin:top center;transition:transform .9s cubic-bezier(.2,.9,.2,1);z-index:8}
+  .ribbon-vert{position:absolute;left:50%;top:0;transform:translateX(-50%);width:36px;height:100%;background:linear-gradient(180deg,#ff387d,#ff7ab6);border-radius:6px;box-shadow:inset 0 -6px 14px rgba(255,255,255,0.08)}
+  .ribbon-hor{position:absolute;left:0;top:50%;transform:translateY(-50%);height:36px;width:100%;background:linear-gradient(90deg,#ff2f77,#ff9acb);border-radius:6px;box-shadow:inset 0 6px 14px rgba(255,255,255,0.06)}
+  .bow{position:absolute;left:50%;top:12px;transform:translateX(-50%);width:80px;height:40px;z-index:12}
+  .box.open{transform:translate(-50%,-22%) scale(.98)}
+  .box.top.open{transform:translate(-50%,-110%) rotateX(70deg) translateY(-16px) scale(1.02)}
+  .gift-label{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);color:#2b0b2b;font-weight:800;padding:6px 12px;border-radius:999px;background:linear-gradient(90deg,#fff,#fff8);font-size:13px;filter:drop-shadow(0 6px 18px rgba(0,0,0,0.26))}
+
+  .hint{font-size:13px;color:var(--muted);margin-top:10px}
+
+  /* reveal area */
+  .reveal{margin-top:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));border:1px solid rgba(255,255,255,0.02);display:none;flex-direction:column;gap:10px;align-items:center;text-align:center}
+  .reveal.show{display:flex;animation:fadeScale .8s cubic-bezier(.2,.9,.2,1) both}
+  @keyframes fadeScale{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+  .big-title{font-size:16px;font-weight:900}
+  .message{font-size:14px;color:var(--muted)}
+
+  /* final big hero */
+  .final-hero{position:relative;margin-top:18px;padding:22px;border-radius:14px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+  .final-hero.show{display:flex;animation:fadeScale .9s cubic-bezier(.2,.9,.2,1) both}
+  .final-line{opacity:0;transform:translateY(14px);font-weight:900;line-height:1.15;text-align:center}
+  .final-line.big{font-size:clamp(20px,6vmin,44px);background:linear-gradient(90deg,#fff 0%,#ffe3f3 25%,#fff9c4 50%,#ffe3f3 75%,#fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:shine 3s linear infinite;text-shadow:0 12px 40px rgba(255,111,181,0.08)}
+  .final-line.small{font-size:16px;color:var(--muted);font-weight:700}
+  @keyframes shine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .underline-glow{display:block;width:60%;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent1));filter:blur(8px);opacity:.18;margin:10px auto 0}
+
+  /* confetti canvas */
+  #confetti-canvas{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:2}
+
+  @media (max-width:520px){ .gift{width:180px;height:150px} .box{width:160px;height:120px} .box.top{width:180px;height:30px} .final-line.big{font-size:28px} }
+</style>
+</head>
+<body>
+
+<!-- confetti -->
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <div class="card" role="main" aria-label="A small gift for the teacher">
+    <header>
+      <div class="avatar" id="avatar">
+        <img src="teacher.jpg" alt="Teacher photo" onerror="this.style.display='none'">
+      </div>
+      <div class="title">
+        <h1>A Little Surprise</h1>
+        <p>Open a small gift from your students 💫</p>
+      </div>
+    </header>
+
+    <!-- Intro question (shows first) -->
+    <div id="introStage" class="intro-stage">
+      <div class="question">Are you our English teacher?</div>
+      <div class="sub">If yes — we have a small gift for you 😊</div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn" id="btnYes">Yes, that's me</button>
+        <button class="btn ghost" id="btnNo">No, not me</button>
+      </div>
+    </div>
+
+    <!-- main stage (hidden until question accepted) -->
+    <div id="mainStage" style="display:none">
+      <div class="stage">
+        <div class="left">
+          <div class="gift-wrap">
+            <div class="gift" id="giftBtn" title="Click to open the gift">
+              <div class="box top" id="lid"></div>
+              <div class="ribbon-vert"></div>
+              <div class="ribbon-hor"></div>
+              <div class="bow" aria-hidden="true">
+                <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                  <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#ff2f77"/><stop offset="1" stop-color="#ff9acb"/></linearGradient></defs>
+                  <path d="M50 40 C30 10, 10 10, 30 40 C10 70, 30 70, 50 40 Z" fill="url(#g1)"/>
+                  <path d="M150 40 C170 10, 190 10, 170 40 C190 70, 170 70, 150 40 Z" fill="url(#g1)"/>
+                  <circle cx="100" cy="40" r="12" fill="#fff"/>
+                </svg>
+              </div>
+
+              <div class="box" id="boxFront">
+                <div style="text-align:center">
+                  <div style="font-size:18px;font-weight:900;color:#2b0b2b">SURPRISE</div>
+                </div>
+              </div>
+
+              <div class="gift-label">Tap to open</div>
+            </div>
+          </div>
+
+          <div class="hint">Tap the gift once to open it — confetti will celebrate 🎉</div>
+        </div>
+
+        <div class="right">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)">
+              <div style="font-weight:800">A small gift</div>
+              <div style="margin-top:6px;color:var(--muted)">"I have a small gift for you despite all your efforts in teaching me."</div>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn" id="openReveal">Open Gift</button>
+              <button class="btn ghost" id="shareBtn">Share Link</button>
+            </div>
+
+            <div style="margin-top:8px;font-size:13px;color:var(--muted)">
+              Tip: you can tap "Open Gift" or the box itself.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" id="reveal">
+        <div class="big-title">A tiny note of thanks</div>
+        <div class="message">Press the button below to reveal the message.</div>
+        <div style="display:flex;gap:10px">
+          <button class="btn" id="revealBig">Reveal the Message</button>
+        </div>
+      </div>
+
+      <div class="final-hero" id="finalHero" aria-hidden="true">
+        <div class="final-line big" id="line1"></div>
+        <div class="final-line small" id="line2"></div>
+        <div class="final-line small" id="line3"></div>
+        <div class="final-line small" id="line4"></div>
+        <span class="underline-glow" aria-hidden="true"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ---------- Confetti (lightweight) ---------- */
+(function(){
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = innerWidth;
+  let H = canvas.height = innerHeight;
+  window.addEventListener('resize', ()=>{W=canvas.width=innerWidth; H=canvas.height=innerHeight;});
+
+  const colors = ['#ff6fb5','#ffd56b','#7be6ff','#65e6cc','#ff9acb','#ffd2e9'];
+  let parts = [];
+
+  function spawn(x,y,count=100){
+    for(let i=0;i<count;i++){
+      parts.push({
+        x: x + (Math.random()*120-60),
+        y: y + (Math.random()*60-30),
+        vx: (Math.random()*6-3),
+        vy: (Math.random()*-10 - 2),
+        ang: Math.random()*360,
+        vr: Math.random()*12 - 6,
+        s: 6 + Math.random()*10,
+        c: colors[Math.floor(Math.random()*colors.length)],
+        life: 80 + Math.random()*40
+      });
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=parts.length-1;i>=0;i--){
+      const p = parts[i];
+      p.vy += 0.3;
+      p.x += p.vx; p.y += p.vy; p.ang += p.vr;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.ang*Math.PI/180);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.s/2, -p.s/2, p.s, p.s*0.6);
+      ctx.restore();
+      p.life--;
+      if(p.y > H + 60 || p.x < -100 || p.x > W + 100 || p.life<=0) parts.splice(i,1);
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+  window._confetti = spawn;
+})();
+
+/* ---------- Interaction logic ---------- */
+const introStage = document.getElementById('introStage');
+const mainStage = document.getElementById('mainStage');
+const btnYes = document.getElementById('btnYes');
+const btnNo = document.getElementById('btnNo');
+const giftBtn = document.getElementById('giftBtn');
+const lid = document.getElementById('lid');
+const boxFront = document.getElementById('boxFront');
+const reveal = document.getElementById('reveal');
+const openReveal = document.getElementById('openReveal');
+const revealBig = document.getElementById('revealBig');
+const finalHero = document.getElementById('finalHero');
+const line1 = document.getElementById('line1');
+const line2 = document.getElementById('line2');
+const line3 = document.getElementById('line3');
+const line4 = document.getElementById('line4');
+const shareBtn = document.getElementById('shareBtn');
+
+btnYes.addEventListener('click', ()=> {
+  // show main stage
+  introStage.style.display='none';
+  mainStage.style.display='block';
+  // small spotlight confetti to welcome
+  window._confetti(window.innerWidth/2, window.innerHeight/2 - 80, 40);
+});
+btnNo.addEventListener('click', ()=> {
+  // polite fallback: if not teacher, still show gift but with different text
+  introStage.querySelector('.sub').innerText = "No worries — this is a small surprise anyway 😊";
+  setTimeout(()=> {
+    introStage.style.display='none';
+    mainStage.style.display='block';
+  }, 600);
+});
+
+// open gift function
+let opened = false;
+function openGift(cx,cy){
+  if(opened) return;
+  opened = true;
+  lid.classList.add('open');
+  boxFront.classList.add('open');
+  boxFront.style.transform = 'translate(-50%,-22%) scale(1.02)';
+  setTimeout(()=> {
+    reveal.classList.add('show');
+    window._confetti(cx || window.innerWidth/2, (cy || window.innerHeight/2)-60, 130);
+  }, 650);
+}
+
+// click handlers
+giftBtn.addEventListener('click',(e)=>{
+  const rect = giftBtn.getBoundingClientRect();
+  openGift(rect.left + rect.width/2, rect.top + rect.height/2);
+});
+openReveal.addEventListener('click',(e)=>{
+  const rect = openReveal.getBoundingClientRect();
+  openGift(rect.left + rect.width/2, rect.top + rect.height/2);
+});
+
+// reveal big final message
+revealBig.addEventListener('click', ()=>{
+  // set lines (English, adapted for semester context)
+  line1.innerText = "Dear Teacher 🤍";
+  line2.innerText = "Thank you for your patience,";
+  line3.innerText = "your kindness, and your effort.";
+  line4.innerText = "You make learning English enjoyable for us ✨";
+
+  // show final hero
+  reveal.classList.remove('show');
+  setTimeout(()=>{
+    finalHero.classList.add('show');
+    finalHero.style.display='flex';
+    // stagger reveal of lines
+    const nodes = [line1,line2,line3,line4];
+    nodes.forEach((n,i)=> setTimeout(()=> {
+      n.style.opacity = '1';
+      n.style.transform = 'translateY(0)';
+      n.classList.add('big'); // apply shimmer for main line
+      // make only first line big shimmer
+      if(i===0){ n.classList.add('big'); } else { n.classList.remove('big'); }
+    }, 300 + i*420));
+    // confetti celebration
+    window._confetti(window.innerWidth/2, window.innerHeight/2 - 60, 240);
+    setTimeout(()=> window._confetti(window.innerWidth/2-220, window.innerHeight/2, 120), 350);
+    setTimeout(()=> window._confetti(window.innerWidth/2+220, window.innerHeight/2, 120), 700);
+    // scroll into view (useful on mobile)
+    finalHero.scrollIntoView({behavior:'smooth',block:'center'});
+  }, 320);
+});
+
+// share button (Web Share API fallback copy)
+shareBtn.addEventListener('click', async ()=>{
+  const shareData = {title:'A small gift', text:'A little surprise for our teacher', url: location.href};
+  if(navigator.share){
+    try{ await navigator.share(shareData); } catch(e){ alert('Share canceled'); }
+  } else {
+    try{ await navigator.clipboard.writeText(location.href); alert('Link copied to clipboard'); } catch(e){ prompt('Copy the link:', location.href); }
+  }
+});
+
+// keyboard accessibility
+giftBtn.tabIndex=0;
+giftBtn.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); giftBtn.click(); } });
+
+</script>
+</body>
+</html>
