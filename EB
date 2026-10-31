@@ -26,7 +26,7 @@
   .wrap{width:100%;max-width:980px;position:relative;z-index:3}
   .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 24px 80px rgba(0,0,0,0.6);position:relative;overflow:hidden}
 
-  header{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+  header{display:flex;gap:14px;align-items:center;margin-bottom:13px}
   .avatar{width:84px;height:84px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,#101124,#17203a);flex:0 0 84px;border:3px solid rgba(255,255,255,0.04)}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
   .title h1{font-size:18px;margin-bottom:4px}
@@ -102,10 +102,10 @@
     <!-- Intro question (shows first) -->
     <div id="introStage" class="intro-stage">
       <div class="question">Are you our English teacher?</div>
-      <div class="sub">If yes — we have a small gift for you 😊</div>
+      <div class="sub">If yes — we have a small gift for you dear teacher😊</div>
       <div style="display:flex;gap:10px;margin-top:8px">
-        <button class="btn" id="btnYes">Yes, that's me</button>
-        <button class="btn ghost" id="btnNo">No, not me</button>
+        <button class="btn" id="btnYes">Yes, I'm teacher</button>
+        <button class="btn ghost" id="btnNo">No, I'm not</button>
       </div>
     </div>
 
@@ -137,12 +137,12 @@
             </div>
           </div>
 
-          <div class="hint">Tap the gift once to open it — confetti will celebrate 🎉</div>
+          <div class="hint">Tap on the gift once to open it — confetti will celebrate 🎉</div>
         </div>
 
         <div class="right">
           <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)">
+            <div style="padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.08)">
               <div style="font-weight:800">A small gift</div>
               <div style="margin-top:6px;color:var(--muted)">"I have a small gift for you despite all your efforts in teaching me."</div>
             </div>
@@ -153,7 +153,7 @@
             </div>
 
             <div style="margin-top:8px;font-size:13px;color:var(--muted)">
-              Tip: you can tap "Open Gift" or the box itself.
+              Tip: tap on the gift to open"Open Gift" or the box itself.
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@
 /* ---------- Confetti (lightweight) ---------- */
 (function(){
   const canvas = document.getElementById('confetti-canvas');
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('3d');
   let W = canvas.width = innerWidth;
   let H = canvas.height = innerHeight;
   window.addEventListener('resize', ()=>{W=canvas.width=innerWidth; H=canvas.height=innerHeight;});
